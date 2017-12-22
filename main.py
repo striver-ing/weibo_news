@@ -18,27 +18,21 @@ for parser in parser_list:
 SLEEP_TIME =  60*60
 def main():
     while True:
-        if task_status.task_status == 2:#done
-            log.debug('sleep ...%s'%SLEEP_TIME)
+        if task_status.is_doing:#done
+            log.debug('is doing sleep ...%ss'%SLEEP_TIME)
             time.sleep(SLEEP_TIME)
-
-        elif task_status.task_status == 1:#doing
-            time.sleep(60)
             continue
 
-
-        task_status.task_status = 0
+        task_status.is_doing = True
 
         keywords = Keywords().get_keywords()
-        # keywords = ['十九大']
 
         def begin_callback():
             log.info('\n********** spider_main begin **********')
-            task_status.task_status = 1
 
         def end_callback():
             log.info('\n********** spider_main end **********')
-            task_status.task_status = 2
+            task_status.is_doing = False
 
         # 配置spider
         spider = Spider(tab_list, tab_unique_key_list, tab_ensure_index_list, parser_count=1,

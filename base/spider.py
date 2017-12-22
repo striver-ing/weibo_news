@@ -73,8 +73,8 @@ class Spider(threading.Thread):
         # 启动parser 的add site 和 add root
         # print(self._parser_params)
         for parser in self._parsers:
-            threading.Thread(target=parser.add_site_info).start()
-            threading.Thread(target=parser.add_root_url, args=(self._parser_params,)).start()
+            parser.add_site_info()
+            parser.add_root_url(self._parser_params)
         # 启动parser control
         while self._parser_count:
             parser_control = PaserControl(self._collector, self._tab_urls)
