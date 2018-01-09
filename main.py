@@ -5,6 +5,8 @@ from utils.log import log
 from base.keywords import Keywords
 import task_status
 import time
+import pid
+pid.record_pid(__file__)
 
 tab_list = ['WEIBO_urls', 'WEIBO_site_info', 'WEIBO_info']  # 配置表(第一个须为url表)
 tab_unique_key_list = ['url', 'site_id', '']  # 唯一索引
