@@ -81,10 +81,7 @@ def add_root_url(keywords):
                 _id = weibo_info['mblog']['id']
                 release_time = weibo_info['mblog']['created_at']
                 release_time = get_release_time(release_time)
-                current_time = tools.get_current_date('%Y-%m-%d')
-                if current_time > release_time:
-                    next_keyword = True
-                    break
+
                 url = 'https://m.weibo.cn/status/' + _id
                 user_name = weibo_info['mblog']['user']['screen_name']
                 video_url = tools.get_info(str(weibo_info), 'stream_url":"(.+?)"', fetch_one=True)
@@ -92,10 +89,15 @@ def add_root_url(keywords):
                 comments_count = weibo_info['mblog']['comments_count']
                 attitudes_count = weibo_info['mblog']['attitudes_count']
 
-                base_parser.save_weibo_info('WEIBO_info', site_id=SITE_ID, content=content, release_time=release_time,
+                is_continue = base_parser.save_weibo_info('WEIBO_info', site_id=SITE_ID, content=content, release_time=release_time,
                                             user_name=user_name, video_url=video_url, _id=_id, url=url,
                                             reposts_count=reposts_count, comments_count=comments_count,
                                             attitudes_count=attitudes_count)
+
+                if not is_continue:
+                    next_keyword = True
+                    break
+
             if next_keyword:
                 break
 

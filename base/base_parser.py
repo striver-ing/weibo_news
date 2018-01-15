@@ -78,6 +78,11 @@ def add_website_info(table, site_id, url, name, domain='', ip='', address='', vi
 
 def save_weibo_info(table, site_id='', release_time='', video_url='', user_name='', content='', _id='', url='',
                     reposts_count='', comments_count='', attitudes_count='', is_debug=False):
+
+    if es.get('weibo_article', _id):
+        log.debug('%s 已存在'%content)
+        return False
+
     content_info = {
         'transmit_count': reposts_count, # 转发数
         'comment_count': comments_count,
@@ -93,6 +98,7 @@ def save_weibo_info(table, site_id='', release_time='', video_url='', user_name=
 
     log.debug(tools.dumps_json(content_info))
     es.add('weibo_article', content_info, data_id = _id)
+    return True
 
 
 def find_ipcategory(ip_num):
