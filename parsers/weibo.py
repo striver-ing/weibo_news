@@ -50,7 +50,7 @@ def add_site_info():
 
 
 # 必须定义 添加根url
-@tools.run_safe_model(__name__)
+# @tools.run_safe_model(__name__)
 def add_root_url(keywords):
     log.debug('''
         添加根url
@@ -61,15 +61,16 @@ def add_root_url(keywords):
     for keyword in keywords:
         next_keyword = False
         for page_num in range(1, 236):
-            print(keyword)
             url = 'https://m.weibo.cn/api/container/getIndex?type=wb&queryVal=%s' % keyword + \
                   '&featurecode=20000320&luicode=10000011&lfid=100103type%3D1%26q%3D' + keyword \
                   + '&title=' + keyword + '&containerid=100103type%3D2%26q%3D' + keyword + '&page=%d' % page_num
             # base_parser.add_url('WEIBO_urls', SITE_ID, url)
+            print('-----------------------------------')
+            print(keyword)
+            print(url)
             info_json = tools.get_json_by_requests(url)
             # log.debug(info_json)
-            print(url)
-            info_list = info_json['data']['cards']
+            info_list = info_json.get('data', {}).get('cards', [])
             if info_list:
                 info_list = info_list[0]['card_group']
             else:
