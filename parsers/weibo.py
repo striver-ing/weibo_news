@@ -50,7 +50,7 @@ def add_site_info():
 
 
 # 必须定义 添加根url
-# @tools.run_safe_model(__name__)
+@tools.run_safe_model(__name__)
 def add_root_url(keywords):
     log.debug('''
         添加根url
